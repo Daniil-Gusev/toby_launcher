@@ -1,0 +1,75 @@
+{
+  "separator": "-----",
+  "exclusions": [
+    "^P_StartScript:",
+    "^[Ff]luidsynth:",
+    "^(Facing|INTRO|MAP[0-9]+|README)",
+    "^ *TITLEMAP",
+    "^key card$",
+    "^\\[Toby Accessibility Mod\\] (INTRO|READMe)([0-9]+).*",
+    "^(As |Computer Voice:|I |I've|Monorail|Ugh|What|Where)",
+    "^Ugh\\.\\.\\. Huh\\? What the hell was that\\?! Better go check it out\\.\\.\\.$"
+  ],
+  "substitutions": [
+    {
+      "pattern": "\\[Toby Accessibility Mod\\] M_",
+      "replacement": "[Toby Accessibility Mod] "
+    },
+    {
+      "pattern": "^\\[Toby Accessibility Mod\\] ",
+      "replacement": ""
+    },
+    {
+      "pattern": "^MessageBoxMenu$",
+      "replacement": "Confirmation menu: Press Y for yes or N for no"
+    },
+    {
+      "pattern": "^Mainmenu$",
+      "replacement": "Main menu"
+    },
+    {
+      "pattern": "^Playerclassmenu$",
+      "replacement": "Player class menu"
+    },
+    {
+      "pattern": "^Skillmenu$",
+      "replacement": "Difficulty menu"
+    },
+    {
+      "pattern": "^NGAME",
+      "replacement": "New game"
+    },
+    {
+      "pattern": "^LOADG$",
+      "replacement": "Load game"
+    },
+    {
+      "pattern": "^SAVEG$",
+      "replacement": "Save game"
+    },
+    {
+      "pattern": "^QUITG$",
+      "replacement": "Quit game"
+    },
+    {
+      "pattern": "\"cl_run\" = \"true\"",
+      "replacement": "Run"
+    },
+    {
+      "pattern": "\"cl_run\" = \"false\"",
+      "replacement": "Walk"
+    },
+    {
+      "pattern": ".*/:Game saved\\. \\(",
+      "replacement": ""
+    },
+    {
+      "pattern": "^\\*\\*\\*",
+      "replacement": ""
+    },
+    {
+      "pattern": "^\\+",
+      "replacement": ""
+    }
+  ]
+}
