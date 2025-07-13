@@ -30,3 +30,4 @@ vendor/
 release/
 installer/*.7z
 installer/install
+resources/gzdoom
