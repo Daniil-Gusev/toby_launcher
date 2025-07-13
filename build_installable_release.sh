@@ -5,12 +5,13 @@ if [ -z "$1" ]; then
   exit 1
 fi
 
+HOST_OS=$(uname)
 VERSION="$1"
 APP_NAME="TobyLauncher"
 PROJECT_NAME="toby_launcher"
 APP_MODULE_PATH="${PROJECT_NAME}/core/version"
 INSTALLER_MODULE_PATH="main"
-PLATFORMS=("linux/amd64" "linux/arm64" "windows/amd64" "windows/arm64" "darwin/amd64" "darwin/arm64")
+PLATFORMS=("darwin/amd64" "darwin/arm64" "linux/amd64" "linux/arm64" "windows/amd64" "windows/arm64")
 RELEASE_DIR="release/installers"
 
 if ! command -v go &> /dev/null; then
@@ -34,7 +35,7 @@ cd resources/data
 7z a -mmt=on -mx=6 ../../tmp/data.7z * > /dev/null
 cd ../../
 
-./download_gzdoom.sh
+./download_old_gzdoom.sh
 if [ $? -ne 0 ]; then
     exit 1
 fi
@@ -44,6 +45,11 @@ mkdir -p "$RELEASE_DIR"
 for PLATFORM in "${PLATFORMS[@]}"; do
   GOOS=${PLATFORM%%/*}
   GOARCH=${PLATFORM##*/}
+  if [ "$GOOS" = "darwin" ] && [ "$HOST_OS" != "Darwin" ]; then
+    echo "Building for $GOOS on $HOST_OS host is not supported, skipping."
+    continue
+  fi
+  
   APP_BINARY_NAME="$APP_NAME"
   INSTALLER_BINARY_NAME="${APP_NAME}Installer"
   if [ "$GOOS" = "windows" ]; then
@@ -57,10 +63,16 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   go mod tidy
   BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   CGO=$(  GOOS=$GOOS GOARCH=$GOARCH go env CGO_ENABLED)
-  if [ "$(uname)" = "Darwin" ] && [ "$GOOS" = "darwin" ]; then
-	  CGO=1
+  if [ "$HOST_OS" = "Darwin" ] && [ "$GOOS" = "darwin" ]; then
+    CGO=1
   fi
-  GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=$CGO go build -ldflags "-s -w -X ${APP_MODULE_PATH}.AppName=${APP_NAME} -X ${APP_MODULE_PATH}.Version=${VERSION} -X ${APP_MODULE_PATH}.BuildTime=${BUILD_TIME}" -o "../installer/install/${APP_BINARY_NAME}"
+  APP_OUTPUT="installer/install/$APP_BINARY_NAME"
+  GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=$CGO go build -ldflags "-s -w -X ${APP_MODULE_PATH}.AppName=${APP_NAME} -X ${APP_MODULE_PATH}.Version=${VERSION} -X ${APP_MODULE_PATH}.BuildTime=${BUILD_TIME}" -o "../$APP_OUTPUT"
+  if [ $? -ne 0 ]; then
+    echo "Build $APP_OUTPUT failed for $GOOS/$GOARCH, skipping."
+	cd ../
+    continue
+  fi
   cd ../
   rm -rf tmp/gzdoom*
   if [ "$GOOS" = "linux" ]; then
@@ -104,6 +116,13 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   go mod tidy
   INSTALLER_OUTPUT="../${OUTPUT_DIR}/${INSTALLER_BINARY_NAME}"
   GOOS=$GOOS GOARCH=$GOARCH go build -ldflags "-s -w -X ${INSTALLER_MODULE_PATH}.AppName=${APP_NAME} -X ${INSTALLER_MODULE_PATH}.BinaryName=${APP_BINARY_NAME}" -o "$INSTALLER_OUTPUT"
+  if [ $? -ne 0 ]; then
+    echo "Build $INSTALLER_OUTPUT failed for $GOOS/$GOARCH, skipping."
+    rm -rf data.7z
+    rm -rf install/*
+    cd ../
+    continue
+  fi
   rm -rf data.7z
   rm -rf install/*
   cd ../
