@@ -139,8 +139,11 @@ func (m *GameManager) handleGameProcess() {
 
 // buildGameArgs constructs the command-line arguments for gzdoom.
 func (m *GameManager) buildGameArgs(data *GameData) []string {
-	args := make([]string, 0, 2+len(data.Files)*2+len(data.Params)*2+len(m.config.Gzdoom.LaunchParams)*2)
+	args := make([]string, 0, 5+len(data.Files)*2+len(data.Params)*2+len(m.config.Gzdoom.LaunchParams)*2)
 	args = append(args, "-stdout")
+	if m.config.Gzdoom.Logging {
+		args = append(args, "+logfile", m.config.Paths.GzdoomLogFilePath())
+	}
 	if len(m.config.Gzdoom.LaunchParams) > 0 {
 		for _, param := range m.config.Gzdoom.LaunchParams {
 			args = append(args, strings.Split(param, " ")...)

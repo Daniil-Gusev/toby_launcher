@@ -1,1 +1,1 @@
-{"tts":{"speech_engine":"","rate":200},"gzdoom":{"params":["+vid_preferbackend 1"],"DebugOutput":true}}
+{"tts":{"speech_engine":"","rate":200},"gzdoom":{"params":["+vid_preferbackend 1"],"debug_output":true,"logging":true}}

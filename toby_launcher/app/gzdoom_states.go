@@ -24,6 +24,7 @@ func NewGzdoomSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuS
 			NextState:   func() (core.State, error) { return &ChangeLaunchParamsState{}, nil },
 		},
 		core.NewSwitchMenuOption(2, &ctx.Config.Gzdoom.DebugOutput, "debug output"),
+		core.NewSwitchMenuOption(3, &ctx.Config.Gzdoom.Logging, "logging"),
 	}
 	return core.NewMenu(parrentState, options, "")
 }

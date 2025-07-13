@@ -64,7 +64,12 @@ func (pc *PathConfig) ConfigFilePath() string {
 }
 
 func (pc *PathConfig) LogFilePath() string {
-	logFile := version.AppName + "." + "log"
+	logFile := version.AppName + ".log"
+	return filepath.Join(pc.BaseDir, logFile)
+}
+
+func (pc *PathConfig) GzdoomLogFilePath() string {
+	logFile := "gzdoom.log"
 	return filepath.Join(pc.BaseDir, logFile)
 }
 
