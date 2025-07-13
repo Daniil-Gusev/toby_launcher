@@ -5,7 +5,8 @@ import (
 )
 
 type gzdoomConfigData struct {
-	Params []string `json:"params"`
+	Params      []string `json:"params"`
+	DebugOutput bool
 }
 
 func (d gzdoomConfigData) validate() (*GzdoomConfig, error) {
@@ -17,19 +18,28 @@ func (d gzdoomConfigData) validate() (*GzdoomConfig, error) {
 	}
 	params := make([]string, 0, 10)
 	params = append(params, d.Params...)
+	debugOutput := false
+	if d.DebugOutput {
+		debugOutput = true
+	}
 	cfg := &GzdoomConfig{
 		LaunchParams: params,
+		DebugOutput:  debugOutput,
 	}
 	return cfg, nil
 }
 
 type GzdoomConfig struct {
 	LaunchParams []string
+	DebugOutput  bool
 }
 
 func (c *GzdoomConfig) save() *gzdoomConfigData {
 	data := &gzdoomConfigData{
 		Params: c.LaunchParams,
+	}
+	if c.DebugOutput {
+		data.DebugOutput = c.DebugOutput
 	}
 	return data
 }

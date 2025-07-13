@@ -14,7 +14,7 @@ func (m *SpeechSettingsMenuState) Name() string {
 
 func NewSpeechSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	parrentState := &SpeechSettingsMenuState{}
-	options := []core.MenuOption{
+	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Back",
 			NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
@@ -46,8 +46,8 @@ func (m *SynthesizerSelectionMenuState) Name() string {
 func NewSynthesizerSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	parentState := &SynthesizerSelectionMenuState{}
 	syns := ui.TtsManager.AvailableSynthesizers()
-	options := make([]core.MenuOption, 0, 1+len(syns))
-	options = append(options, core.MenuOption{
+	options := make([]*core.MenuOption, 0, 1+len(syns))
+	options = append(options, &core.MenuOption{
 		Id:          0,
 		Description: "Back.",
 		NextState: func() (core.State, error) {
@@ -55,7 +55,7 @@ func NewSynthesizerSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core
 		},
 	})
 	for i, s := range syns {
-		opt := core.MenuOption{
+		opt := &core.MenuOption{
 			Id:          i + 1,
 			Description: s.Name() + ".",
 			NextState: func() (core.State, error) {

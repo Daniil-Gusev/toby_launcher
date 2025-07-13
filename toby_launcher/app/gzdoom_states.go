@@ -14,7 +14,7 @@ func (m *GzdoomSettingsMenuState) Name() string {
 
 func NewGzdoomSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	parrentState := &GzdoomSettingsMenuState{}
-	options := []core.MenuOption{
+	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Back.",
 			NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
@@ -23,6 +23,7 @@ func NewGzdoomSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuS
 			Description: "Change GZDoom launch parametrs.",
 			NextState:   func() (core.State, error) { return &ChangeLaunchParamsState{}, nil },
 		},
+		core.NewSwitchMenuOption(2, &ctx.Config.Gzdoom.DebugOutput, "debug output"),
 	}
 	return core.NewMenu(parrentState, options, "")
 }

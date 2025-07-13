@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 	"sort"
+	"toby_launcher/apperrors"
 	"toby_launcher/core/validation"
 	"toby_launcher/utils"
 )
@@ -77,17 +78,23 @@ type MenuOption struct {
 type MenuState struct {
 	BaseState
 	ParentState State
-	Options     []MenuOption
-	OptionsMap  map[int]MenuOption
+	Options     []*MenuOption
+	OptionsMap  map[int]*MenuOption
 	Header      string
 }
 
-func NewMenu(parentState State, options []MenuOption, header string) *MenuState {
-	sort.Slice(options, func(i, j int) bool {
-		return options[i].Id < options[j].Id
+func NewMenu(parentState State, options []*MenuOption, header string) *MenuState {
+	sortedOptions := make([]*MenuOption, 0, len(options))
+	for _, o := range options {
+		if o != nil {
+			sortedOptions = append(sortedOptions, o)
+		}
+	}
+	sort.Slice(sortedOptions, func(i, j int) bool {
+		return sortedOptions[i].Id < sortedOptions[j].Id
 	})
-	optionsMap := make(map[int]MenuOption, len(options))
-	for _, option := range options {
+	optionsMap := make(map[int]*MenuOption, len(sortedOptions))
+	for _, option := range sortedOptions {
 		optionsMap[option.Id] = option
 	}
 	return &MenuState{
@@ -129,4 +136,55 @@ func (m *MenuState) Handle(ctx *AppContext, ui *UiContext, input string) (State,
 		return m, nil
 	}
 	return option.NextState()
+}
+
+type OptionSwitcher bool
+
+func (s OptionSwitcher) String() string {
+	if s == true {
+		return "enable"
+	}
+	return "disable"
+}
+
+type SwitchOptionState struct {
+	BaseState
+	option *bool
+	name   string
+}
+
+func (s *SwitchOptionState) Init(ctx *AppContext, ui *UiContext) (State, error) {
+	if s.option == nil {
+		err := apperrors.New(apperrors.Err, "Option \"$option\" is not specified.", map[string]any{"option": s.name})
+		ui.DisplayError(err)
+		return ctx.GetPreviousState()
+	}
+	return s, nil
+}
+
+func (s *SwitchOptionState) Handle(ctx *AppContext, ui *UiContext, input string) (State, error) {
+	switcher := OptionSwitcher(*s.option)
+	ui.DisplayText(fmt.Sprintf("%s is %vd.\r\n", s.name, !switcher))
+	*s.option = !bool(switcher)
+	return ctx.GetPreviousState()
+}
+
+func (s *SwitchOptionState) RequiresInput() bool {
+	return false
+}
+
+func NewSwitchMenuOption(id int, option *bool, name string) *MenuOption {
+	if option == nil {
+		return nil
+	}
+	return &MenuOption{
+		Id:          id,
+		Description: "$action $option.",
+		Params: func() map[string]any {
+			return map[string]any{"action": !OptionSwitcher(*option), "option": name}
+		},
+		NextState: func() (State, error) {
+			return &SwitchOptionState{option: option, name: name}, nil
+		},
+	}
 }

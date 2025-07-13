@@ -25,7 +25,7 @@ func (m *MainMenuState) Name() string {
 
 func NewMainMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	parentState := &MainMenuState{}
-	options := []core.MenuOption{
+	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Exit.",
 			NextState:   func() (core.State, error) { return &core.ExitState{}, nil },
@@ -50,7 +50,7 @@ func (m *SettingsMenuState) Name() string {
 
 func NewSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	parrentState := &SettingsMenuState{}
-	options := []core.MenuOption{
+	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Back.",
 			NextState:   func() (core.State, error) { return ctx.GetPreviousState() },

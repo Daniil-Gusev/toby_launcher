@@ -104,6 +104,9 @@ func (p *TextProcessor) Write(data []byte) (int, error) {
 	scanner := bufio.NewScanner(bytes.NewReader(data))
 	for scanner.Scan() {
 		line := scanner.Text()
+		if p.config.Gzdoom.DebugOutput {
+			p.logger.Printf(line)
+		}
 		if p.separator != nil && p.separator.MatchString(line) {
 			p.startProcessing = true
 			continue
