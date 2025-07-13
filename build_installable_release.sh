@@ -8,7 +8,7 @@ fi
 VERSION="$1"
 APP_NAME="TobyLauncher"
 PROJECT_NAME="toby_launcher"
-APP_MODULE_PATH="${PROJECT_NAME}/version"
+APP_MODULE_PATH="${PROJECT_NAME}/core/version"
 INSTALLER_MODULE_PATH="main"
 PLATFORMS=("linux/amd64" "linux/arm64" "windows/amd64" "windows/arm64" "darwin/amd64" "darwin/arm64")
 RELEASE_DIR="release/installers"
