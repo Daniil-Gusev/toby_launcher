@@ -16,9 +16,7 @@ func (d gzdoomConfigData) validate() (*GzdoomConfig, error) {
 		})
 	}
 	params := make([]string, 0, 10)
-	for _, param := range d.Params {
-		params = append(params, param)
-	}
+	params = append(params, d.Params...)
 	cfg := &GzdoomConfig{
 		LaunchParams: params,
 	}

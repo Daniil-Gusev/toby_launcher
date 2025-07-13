@@ -46,15 +46,6 @@ func (r *CommandRegistry) updateLocalAliases() {
 	}
 }
 
-func (r *CommandRegistry) containsCommand(cmds []Command, cmd Command) bool {
-	for _, c := range cmds {
-		if c.Name() == cmd.Name() {
-			return true
-		}
-	}
-	return false
-}
-
 func (r *CommandRegistry) findCommandByName(cmds []Command, name string) Command {
 	for _, cmd := range cmds {
 		if cmd.Name() == name {

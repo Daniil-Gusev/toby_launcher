@@ -1,5 +1,6 @@
 #!/bin/bash
 
+GZDOOM_VERSION="latest"
 RESOURCES_DIR="resources/gzdoom"
 PLATFORMS=("windows" "darwin" "linux_amd64" "linux_arm64")
 
@@ -22,7 +23,7 @@ fi
 echo "Downloading GZDoom packages..."
 
 mkdir -p tmp
-API_URL="https://api.github.com/repos/ZDoom/gzdoom/releases/latest"
+API_URL="https://api.github.com/repos/ZDoom/gzdoom/releases/${GZDOOM_VERSION}"
 
 download_and_process() {
   local platform=$1

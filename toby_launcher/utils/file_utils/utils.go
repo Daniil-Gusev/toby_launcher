@@ -40,8 +40,11 @@ func WriteFile(filePath string, data []byte) error {
 			"error": err,
 		})
 	}
-	defer file.Close()
-
+	defer func() {
+		if closeErr := file.Close(); closeErr != nil && err == nil {
+			err = closeErr
+		}
+	}()
 	_, err = file.Write(data)
 	if err != nil {
 		return apperrors.New(apperrors.Err, "Error writing to file $file: $error", map[string]any{

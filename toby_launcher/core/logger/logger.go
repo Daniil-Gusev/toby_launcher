@@ -75,6 +75,8 @@ func (l *StdLogger) DebugError(err error) {
 
 func (l *StdLogger) Release() {
 	if l.file != nil {
-		l.file.Close()
+		if err := l.file.Close(); err != nil {
+			l.Error(err)
+		}
 	}
 }

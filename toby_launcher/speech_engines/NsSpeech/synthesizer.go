@@ -73,7 +73,7 @@ func (s *Synthesizer) Speak(phrase *tts.Phrase) error {
 		}
 	}
 	if err := s.synth.speak(s.handlePhrase(phrase)); err != nil {
-		return fmt.Errorf("Failed to speak: %v", err)
+		return fmt.Errorf("failed to speak: %v", err)
 	}
 	return nil
 }

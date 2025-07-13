@@ -46,7 +46,7 @@ func NewPathConfig() (*PathConfig, error) {
 	}
 	baseDir := filepath.Join(configDir, version.AppName)
 	if _, err := os.Stat(baseDir); os.IsNotExist(err) {
-		return nil, fmt.Errorf("Configuration directory does not exist: %s.", baseDir)
+		return nil, fmt.Errorf("configuration directory does not exist: %s", baseDir)
 	}
 	filesDir := filepath.Join(baseDir, "files")
 	if err := os.MkdirAll(filesDir, 0755); err != nil {
@@ -96,8 +96,9 @@ func (pc *PathConfig) GzdoomPath() (string, error) {
 	var systemPath string
 	if runtime.GOOS == "darwin" {
 		systemPath = filepath.Join(pc.BaseDir, "gzdoom", "GZDoom.app", "Contents", "MacOS", exeName)
+	} else {
+		systemPath = filepath.Join(pc.BaseDir, "gzdoom", exeName)
 	}
-	systemPath = filepath.Join(pc.BaseDir, "gzdoom", exeName)
 	if file_utils.Exists(systemPath) {
 		return systemPath, nil
 	}
@@ -122,6 +123,6 @@ func OsConfigDir(platform string) (string, error) {
 	case "darwin":
 		return "/Library/Application Support", nil
 	default:
-		return "", fmt.Errorf("Platform %s is not supported.", platform)
+		return "", fmt.Errorf("platform %s is not supported", platform)
 	}
 }

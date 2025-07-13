@@ -57,7 +57,7 @@ type TtsManager struct {
 
 func NewTtsManager(cfg *config.TtsConfig, logger logger.Logger) (*TtsManager, error) {
 	if logger == nil {
-		return nil, fmt.Errorf("Logger not specified.")
+		return nil, fmt.Errorf("logger not specified")
 	}
 	syns := GetAvailableSynthesizers(logger)
 	if len(syns) == 0 {
@@ -103,7 +103,6 @@ func (m *TtsManager) Wait(timeout int) error {
 			return nil
 		}
 	}
-	return nil
 }
 
 func (m *TtsManager) NewPhrase(text string, rate, silence int) *Phrase {

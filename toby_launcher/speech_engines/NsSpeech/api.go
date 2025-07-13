@@ -69,7 +69,7 @@ type nsSpeechSynthesizer struct {
 func newNsSpeechSynthesizer() (*nsSpeechSynthesizer, error) {
 	ptr := C.NsSpeechInit()
 	if ptr == nil {
-		return nil, fmt.Errorf("Cannot initialize NsSpeechSynthesizer interface.")
+		return nil, fmt.Errorf("cannot initialize NsSpeechSynthesizer interface")
 	}
 	return &nsSpeechSynthesizer{ptr: unsafe.Pointer(ptr)}, nil
 }
@@ -77,10 +77,10 @@ func newNsSpeechSynthesizer() (*nsSpeechSynthesizer, error) {
 func (s *nsSpeechSynthesizer) speak(text string) error {
 	ret := C.NsSpeechSpeak(C.NSSpeechSynthesizerPtr(s.ptr), C.CString(text))
 	if ret == -1 {
-		return fmt.Errorf("NsSpeechSynthesizer interface is not initialized.")
+		return fmt.Errorf("nsSpeechSynthesizer interface is not initialized")
 	}
 	if text == "" {
-		return fmt.Errorf("No text to speak has been specified.")
+		return fmt.Errorf("no text to speak has been specified")
 	}
 	return nil
 }
@@ -88,7 +88,7 @@ func (s *nsSpeechSynthesizer) speak(text string) error {
 func (s *nsSpeechSynthesizer) stop() error {
 	ret := C.NsSpeechStop(C.NSSpeechSynthesizerPtr(s.ptr))
 	if ret == -1 {
-		return fmt.Errorf("NsSpeechSynthesizer interface is not initialized.")
+		return fmt.Errorf("nsSpeechSynthesizer interface is not initialized")
 	}
 	return nil
 }
@@ -96,7 +96,7 @@ func (s *nsSpeechSynthesizer) stop() error {
 func (s *nsSpeechSynthesizer) setRate(rate int) error {
 	ret := C.NsSpeechSetRate(C.NSSpeechSynthesizerPtr(s.ptr), C.float(rate))
 	if ret == -1 {
-		return fmt.Errorf("NsSpeechSynthesizer interface is not initialized.")
+		return fmt.Errorf("nsSpeechSynthesizer interface is not initialized")
 	}
 	if ret == -2 {
 		return fmt.Errorf("rate value is out of range")
@@ -107,7 +107,7 @@ func (s *nsSpeechSynthesizer) setRate(rate int) error {
 func (s *nsSpeechSynthesizer) getRate() (float64, error) {
 	ret := C.NsSpeechGetRate(C.NSSpeechSynthesizerPtr(s.ptr))
 	if ret == -1 {
-		return 0, fmt.Errorf("NsSpeechSynthesizer interface is not initialized.")
+		return 0, fmt.Errorf("nsSpeechSynthesizer interface is not initialized")
 	}
 	return float64(ret), nil
 }
@@ -115,13 +115,13 @@ func (s *nsSpeechSynthesizer) getRate() (float64, error) {
 func (s *nsSpeechSynthesizer) isSpeaking() (bool, error) {
 	switch C.NsSpeechIsSpeaking(C.NSSpeechSynthesizerPtr(s.ptr)) {
 	case -1:
-		return false, fmt.Errorf("NsSpeechSynthesizer interface is not initialized.")
+		return false, fmt.Errorf("nsSpeechSynthesizer interface is not initialized")
 	case 0:
 		return false, nil
 	case 1:
 		return true, nil
 	}
-	return false, fmt.Errorf("Unrecognized error.")
+	return false, fmt.Errorf("unrecognized error")
 }
 
 func (s *nsSpeechSynthesizer) free() {

@@ -13,6 +13,11 @@ INSTALLER_MODULE_PATH="main"
 PLATFORMS=("linux/amd64" "linux/arm64" "windows/amd64" "windows/arm64" "darwin/amd64" "darwin/arm64")
 RELEASE_DIR="release/installers"
 
+if ! command -v go &> /dev/null; then
+  echo "go not found, terminate!"
+  exit 1
+fi
+
 if ! command -v 7z &> /dev/null; then
   echo "7z not found, terminate!"
   exit 1
@@ -49,12 +54,13 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   mkdir -p installer/install
   cd $PROJECT_NAME
   echo "Building app binary for $GOOS/$GOARCH..."
+  go mod tidy
   BUILD_TIME=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   CGO=$(  GOOS=$GOOS GOARCH=$GOARCH go env CGO_ENABLED)
   if [ "$(uname)" = "Darwin" ] && [ "$GOOS" = "darwin" ]; then
 	  CGO=1
   fi
-  GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=$CGO go build -ldflags "-X ${APP_MODULE_PATH}.AppName=${APP_NAME} -X ${APP_MODULE_PATH}.Version=${VERSION} -X ${APP_MODULE_PATH}.BuildTime=${BUILD_TIME}" -o "../installer/install/${APP_BINARY_NAME}"
+  GOOS=$GOOS GOARCH=$GOARCH CGO_ENABLED=$CGO go build -ldflags "-s -w -X ${APP_MODULE_PATH}.AppName=${APP_NAME} -X ${APP_MODULE_PATH}.Version=${VERSION} -X ${APP_MODULE_PATH}.BuildTime=${BUILD_TIME}" -o "../installer/install/${APP_BINARY_NAME}"
   cd ../
   rm -rf tmp/gzdoom*
   if [ "$GOOS" = "linux" ]; then
@@ -95,8 +101,9 @@ for PLATFORM in "${PLATFORMS[@]}"; do
 
   cd installer
   echo "Building installer for $GOOS/$GOARCH..."
+  go mod tidy
   INSTALLER_OUTPUT="../${OUTPUT_DIR}/${INSTALLER_BINARY_NAME}"
-  GOOS=$GOOS GOARCH=$GOARCH go build -ldflags "-X ${INSTALLER_MODULE_PATH}.AppName=${APP_NAME} -X ${INSTALLER_MODULE_PATH}.BinaryName=${APP_BINARY_NAME}" -o "$INSTALLER_OUTPUT"
+  GOOS=$GOOS GOARCH=$GOARCH go build -ldflags "-s -w -X ${INSTALLER_MODULE_PATH}.AppName=${APP_NAME} -X ${INSTALLER_MODULE_PATH}.BinaryName=${APP_BINARY_NAME}" -o "$INSTALLER_OUTPUT"
   rm -rf data.7z
   rm -rf install/*
   cd ../

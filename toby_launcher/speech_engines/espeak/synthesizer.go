@@ -47,12 +47,14 @@ func (s *Synthesizer) CreateNew() (tts.SpeechSynthesizer, error) {
 }
 
 func (s *Synthesizer) Release() {
-	s.Stop()
+	if err := s.Stop(); err != nil {
+		s.LogError(err)
+	}
 }
 
 func (s *Synthesizer) Stop() error {
 	if s.cmd == nil || s.cmd.Process == nil {
-		return fmt.Errorf("Espeak process is not initialized.")
+		return fmt.Errorf("espeak process is not initialized")
 	}
 	isSpeaking, err := s.IsSpeaking()
 	if err != nil {
@@ -70,14 +72,14 @@ func (s *Synthesizer) Stop() error {
 
 func (s *Synthesizer) IsSpeaking() (bool, error) {
 	if s.cmd != nil && s.cmd.Process == nil {
-		return false, fmt.Errorf("Espeak process is not initialized.")
+		return false, fmt.Errorf("espeak process is not initialized")
 	}
 	return s.isSpeaking, nil
 }
 
 func (s *Synthesizer) Speak(phrase *tts.Phrase) error {
 	if phrase.Text == "" {
-		return fmt.Errorf("No text to speak has been specified.")
+		return fmt.Errorf("no text to speak has been specified")
 	}
 	if phrase.Silence > 0 {
 		phraseCopy := *phrase
