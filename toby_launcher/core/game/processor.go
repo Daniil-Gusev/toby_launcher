@@ -105,7 +105,7 @@ func (p *TextProcessor) Write(data []byte) (int, error) {
 	for scanner.Scan() {
 		line := scanner.Text()
 		if p.config.Gzdoom.DebugOutput {
-			p.logger.Printf(line)
+			p.logger.InfoPrintf(line)
 		}
 		if p.separator != nil && p.separator.MatchString(line) {
 			p.startProcessing = true

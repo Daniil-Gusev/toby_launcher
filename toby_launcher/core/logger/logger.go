@@ -10,6 +10,7 @@ import (
 type Logger interface {
 	Printf(format string, v ...any)
 	Error(err error)
+	InfoPrintf(format string, v ...any)
 	DebugPrintf(format string, v ...any)
 	DebugError(err error)
 	Release()
@@ -48,6 +49,10 @@ func NewStdLogger(output io.Writer, logFilePath string, errorHandler apperrors.E
 func (l *StdLogger) Printf(format string, v ...any) {
 	l.logger.Printf(format, v...)
 	l.fileLogger.Printf(format, v...)
+}
+
+func (l *StdLogger) InfoPrintf(format string, v ...any) {
+	l.logger.Printf(format, v...)
 }
 
 func (l *StdLogger) Error(err error) {

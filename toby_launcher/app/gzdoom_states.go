@@ -69,6 +69,6 @@ func (s *ChangeLaunchParamsState) Handle(ctx *core.AppContext, ui *core.UiContex
 	return ctx.GetPreviousState()
 }
 
-func (s *ChangeLaunchParamsState) Command() []core.Command {
+func (s *ChangeLaunchParamsState) Commands() []core.Command {
 	return []core.Command{&core.BackCommand{}}
 }

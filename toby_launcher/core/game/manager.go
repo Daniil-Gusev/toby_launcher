@@ -91,7 +91,11 @@ func (m *GameManager) StartGame(gameData *GameData) error {
 		cmd:       cmd,
 		IsRunning: true,
 	}
-	m.logger.DebugPrintf("Running %v\r\n", strings.Join(cmd.Args, " "))
+	msg := fmt.Sprintf("Running %v\r\n", strings.Join(cmd.Args, " "))
+	m.logger.DebugPrintf(msg)
+	if m.config.Gzdoom.DebugOutput {
+		m.logger.InfoPrintf(msg)
+	}
 	if err := cmd.Start(); err != nil {
 		m.currentGame = nil
 		return apperrors.New(apperrors.Err, "Failed to start game: $error", map[string]any{"error": err})
