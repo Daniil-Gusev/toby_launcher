@@ -35,7 +35,7 @@ cd resources/data
 7z a -mmt=on -mx=6 ../../tmp/data.7z * > /dev/null
 cd ../../
 
-./download_old_gzdoom.sh
+./download_gzdoom.sh
 if [ $? -ne 0 ]; then
     exit 1
 fi

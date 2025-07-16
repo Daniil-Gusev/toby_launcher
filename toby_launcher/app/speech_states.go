@@ -55,15 +55,16 @@ func NewSynthesizerSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core
 		},
 	})
 	for i, s := range syns {
+		synth := s
 		opt := &core.MenuOption{
 			Id:          i + 1,
-			Description: s.Name() + ".",
+			Description: synth.Name() + ".",
 			NextState: func() (core.State, error) {
-				if err := ui.TtsManager.SetSynthesizer(s.Name()); err != nil {
+				if err := ui.TtsManager.SetSynthesizer(synth.Name()); err != nil {
 					ui.DisplayError(err)
 					return ctx.GetCurrentState()
 				}
-				msg := fmt.Sprintf("%s selected.", s.Name())
+				msg := fmt.Sprintf("%s selected.", synth.Name())
 				ui.DisplayText(msg + "\r\n")
 				ui.TtsManager.Speak(msg)
 				return ctx.GetCurrentState()

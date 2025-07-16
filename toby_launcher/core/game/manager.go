@@ -138,6 +138,7 @@ func (m *GameManager) handleGameProcess() {
 		m.logger.Printf("Game finished.\r\n")
 		m.currentGame.IsRunning = false
 		m.currentGame = nil
+		m.textProcessor.startProcessing = false
 	}
 }
 

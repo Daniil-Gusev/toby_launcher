@@ -1,6 +1,10 @@
 #!/bin/bash
 
 GZDOOM_VERSION="latest"
+if [ -n "$1" ]; then
+	GZDOOM_VERSION=$1
+fi
+
 RESOURCES_DIR="resources/gzdoom"
 PLATFORMS=("windows" "darwin" "linux_amd64" "linux_arm64")
 
