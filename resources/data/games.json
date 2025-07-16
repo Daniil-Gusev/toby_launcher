@@ -1,0 +1,232 @@
+{
+  "Classic Doom1": {
+    "description": "Classic Doom 1 with Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3"
+    ]
+  },
+  "Classic Doom2": {
+    "description": "Classic Doom 2 with Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3"
+    ]
+  },
+  "Classic Heretic": {
+    "description": "Classic Heretic with Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "heretic.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/HERETIC/TobyHereticWeaponsV8.pk3",
+      "Addons/HERETIC/TobyHereticMonsters.pk3",
+      "Addons/HERETIC/TobyHereticItemsV8.pk3",
+      "Addons/HERETIC/TobyHereticDecorations.pk3",
+      "Addons/HERETIC/TobyHereticMenu.wad",
+      "Addons/HERETIC/TobyHereticBeacons.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3"
+    ]
+  },
+  "Classic Hexen": {
+    "description": "Classic Hexen with Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "hexen.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/HEXEN/TobyHexenWeapons.pk3",
+      "Addons/HEXEN/TobyHexenMonsters.pk3",
+      "Addons/HEXEN/TobyHexenItems.pk3",
+      "Addons/HEXEN/TobyHexenDecorations.pk3",
+      "Addons/HEXEN/TobyHexenMenu.wad",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3"
+    ]
+  },
+  "Toby Doom": {
+    "description": "Toby's custom Doom levels with Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "Addons/MAPS/TobyDoomLevels.wad"
+    ]
+  },
+  "Toby Heretic": {
+    "description": "Toby's custom Heretic levels with Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "heretic.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/HERETIC/TobyHereticWeaponsV8.pk3",
+      "Addons/HERETIC/TobyHereticMonsters.pk3",
+      "Addons/HERETIC/TobyHereticItemsV8.pk3",
+      "Addons/HERETIC/TobyHereticDecorations.pk3",
+      "Addons/HERETIC/TobyHereticBeacons.pk3",
+      "Addons/HERETIC/TobyHereticMenu.wad",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "Addons/MAPS/TobyHereticLevels.wad"
+    ]
+  },
+  "Toby Hexen": {
+    "description": "Toby's custom Hexen levels with Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "hexen.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/HEXEN/TobyHexenWeapons.pk3",
+      "Addons/HEXEN/TobyHexenMonsters.pk3",
+      "Addons/HEXEN/TobyHexenItems.pk3",
+      "Addons/HEXEN/TobyHexenDecorations.pk3",
+      "Addons/HEXEN/TobyHexenMenu.wad",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "Addons/MAPS/TobyHexen.pk3"
+    ]
+  },
+  "Toby's Death Arena": {
+    "description": "Toby's Death Arena with deathmatch settings and Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "params": [
+      "-altdeath",
+      "+fraglimit 20",
+      "+map map01",
+      "+dmflags 16384",
+      "+dmflags 128",
+      "+dmflags 4096"
+    ],
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "Addons/MAPS/TobyDeathArena_V1-5.wad"
+    ]
+  },
+  "Project Brutality Classic Doom": {
+    "description": "Classic Doom with Project Brutality and Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "PB-Toby-Compatibility-Addon.pk3",
+      "Project_Brutality.pk3"
+    ],
+    "params": [
+      "+Toby_NarrationOutputType 2",
+      "+Toby_SnapToTargetTargetingMode 1"
+    ]
+  },
+  "Project Brutality Toby Doom": {
+    "description": "Toby's custom Doom levels with Project Brutality and Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/MAPS/TobyDoomLevels.wad",
+      "PB-Toby-Compatibility-Addon.pk3",
+      "Project_Brutality.pk3"
+    ],
+    "params": [
+      "+Toby_NarrationOutputType 2",
+      "+Toby_SnapToTargetTargetingMode 1"
+    ]
+  },
+  "Project Brutality Demo Level": {
+    "description": "Toby's Demo Level with Project Brutality and Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/MAPS/Toby-Demo-Level.wad",
+      "PB-Toby-Compatibility-Addon.pk3",
+      "Project_Brutality.pk3"
+    ],
+    "params": [
+      "+Toby_NarrationOutputType 2",
+      "+Toby_SnapToTargetTargetingMode 1"
+    ]
+  },
+  "Project Brutality Operation MDK": {
+    "description": "Operation MDK with Project Brutality and Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "OpMDK.wad",
+      "PB-Toby-Compatibility-Addon.pk3",
+      "Project_Brutality.pk3"
+    ],
+    "params": [
+      "+Toby_NarrationOutputType 2",
+      "+Toby_SnapToTargetTargetingMode 1"
+    ]
+  },
+  "Project Brutality Toby's Death Arena": {
+    "description": "Toby's Death Arena with Project Brutality, deathmatch settings, and Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "params": [
+      "-altdeath",
+      "+fraglimit 20",
+      "+map map01",
+      "+dmflags 16384",
+      "+dmflags 128",
+      "+dmflags 4096",
+      "+Toby_NarrationOutputType 2",
+      "+Toby_SnapToTargetTargetingMode 1"
+    ],
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/MAPS/TobyDeathArena_V1-5.wad",
+      "PB-Toby-Compatibility-Addon.pk3",
+      "Project_Brutality.pk3"
+    ]
+  },
+  "Operation MDK": {
+    "description": "Operation MDK with Toby's Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "OpMDK.wad"
+    ]
+  },
+  "Demo Level": {
+    "description": "Toby's Demo Level with Accessibility Mod",
+    "config": "TobyConfig.ini",
+    "iwad": "doom2.wad",
+    "files": [
+      "TobyAccMod_V8-0.pk3",
+      "Addons/DOOM/TobyV8_Guns.pk3",
+      "Addons/DOOM/TobyV7_Monsters.pk3",
+      "Addons/DOOM/TobyV8_Pickups.pk3",
+      "Addons/DOOM/TobyV8_Decorations.pk3",
+      "Addons/MENU/TobyV7_SimpleMenu.pk3",
+      "Addons/MAPS/Toby-Demo-Level.wad"
+    ]
+  }
+}

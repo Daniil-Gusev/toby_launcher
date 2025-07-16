@@ -52,6 +52,34 @@
       "replacement": "Quit game"
     },
     {
+      "pattern": "^OPTION",
+      "replacement": "Options."
+    },
+    {
+      "pattern": "^RDTHIS",
+      "replacement": "Read this!"
+    },
+    {
+      "pattern": "JKILL",
+      "replacement": "I'm too young to die."
+    },
+    {
+      "pattern": "ROUGH",
+      "replacement": "Hey, not too rough."
+    },
+    {
+      "pattern": "HURT",
+      "replacement": "Hurt me plenty."
+    },
+    {
+      "pattern": "ULTRA",
+      "replacement": "Ultra-violence."
+    },
+    {
+      "pattern": "NMARE",
+      "replacement": "Nightmare!"
+    },
+    {
       "pattern": "\"cl_run\" = \"true\"",
       "replacement": "Run"
     },
