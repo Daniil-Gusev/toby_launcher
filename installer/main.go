@@ -47,7 +47,7 @@ func main() {
 		os.Exit(1)
 	}
 	fmt.Println("Press any key to exit...")
-	if _, err := fmt.Scanln(); err != nil {
+	if _, err := fmt.Scan(); err != nil {
 		fmt.Printf("Input error: %v\n", err)
 	}
 }
