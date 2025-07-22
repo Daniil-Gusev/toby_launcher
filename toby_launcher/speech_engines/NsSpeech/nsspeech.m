@@ -1,3 +1,5 @@
+//go:build darwin
+
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
