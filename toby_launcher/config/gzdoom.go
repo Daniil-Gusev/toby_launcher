@@ -10,29 +10,36 @@ type gzdoomConfigData struct {
 	Logging     bool     `json:"logging"`
 }
 
-func (d gzdoomConfigData) validate() (*GzdoomConfig, error) {
+func (d *gzdoomConfigData) validate() error {
 	errStr := "Field \"$field\" is missing."
 	if d.Params == nil {
-		return nil, apperrors.New(apperrors.Err, errStr, map[string]any{
+		return apperrors.New(apperrors.Err, errStr, map[string]any{
 			"field": "gzdoom.params",
 		})
 	}
-	params := make([]string, 0, 10)
-	params = append(params, d.Params...)
-	debugOutput := d.DebugOutput
-	logging := d.Logging
-	cfg := &GzdoomConfig{
-		LaunchParams: params,
-		DebugOutput:  debugOutput,
-		Logging:      logging,
-	}
-	return cfg, nil
+	return nil
 }
 
 type GzdoomConfig struct {
 	LaunchParams []string
 	DebugOutput  bool
 	Logging      bool
+}
+
+func NewGzdoomConfig() *GzdoomConfig {
+	return &GzdoomConfig{
+		LaunchParams: make([]string, 0, 10),
+	}
+}
+
+func (c *GzdoomConfig) load(data *gzdoomConfigData) error {
+	if err := data.validate(); err != nil {
+		return err
+	}
+	c.LaunchParams = data.Params
+	c.Logging = data.Logging
+	c.DebugOutput = data.DebugOutput
+	return nil
 }
 
 func (c *GzdoomConfig) save() *gzdoomConfigData {

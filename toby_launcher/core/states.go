@@ -99,7 +99,7 @@ func NewMenu(parentState State, options []*MenuOption, header string) *MenuState
 	}
 	return &MenuState{
 		ParentState: parentState,
-		Options:     options,
+		Options:     sortedOptions,
 		OptionsMap:  optionsMap,
 		Header:      header,
 	}

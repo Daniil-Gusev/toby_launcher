@@ -11,27 +11,26 @@ type configData struct {
 }
 
 func (d configData) validate() error {
+	errStr := "required section \"$section\" is missing"
 	if d.Tts == nil {
-		return apperrors.New(apperrors.Err, "required section \"$section\" is missing.", map[string]any{
+		return apperrors.New(apperrors.Err, errStr, map[string]any{
 			"section": "tts",
 		})
 	}
 	if d.Gzdoom == nil {
-		return apperrors.New(apperrors.Err, "required section \"$section\" is missing.", map[string]any{
+		return apperrors.New(apperrors.Err, errStr, map[string]any{
 			"section": "gzdoom",
 		})
 	}
 	return nil
 }
 
-// Config contains all application configuration settings.
 type Config struct {
 	Paths  *PathConfig
 	Tts    *TtsConfig
 	Gzdoom *GzdoomConfig
 }
 
-// NewConfig creates a new Config instance with initialized PathConfig and LanguageConfig.
 func NewConfig() (*Config, error) {
 	pathConfig, err := NewPathConfig()
 	if err != nil {
@@ -40,7 +39,7 @@ func NewConfig() (*Config, error) {
 	return &Config{
 		Paths:  pathConfig,
 		Tts:    &TtsConfig{},
-		Gzdoom: &GzdoomConfig{},
+		Gzdoom: NewGzdoomConfig(),
 	}, nil
 }
 
@@ -58,22 +57,18 @@ func (c *Config) Load(filePath string) error {
 			"error": err,
 		})
 	}
-	ttsCfg, err := rawData.Tts.validate()
-	if err != nil {
+	if err := c.Tts.load(rawData.Tts); err != nil {
 		return apperrors.New(apperrors.Err, "error in configuration file $file: $error", map[string]any{
 			"file":  filePath,
 			"error": err,
 		})
 	}
-	gzdoomCfg, err := rawData.Gzdoom.validate()
-	if err != nil {
+	if err := c.Gzdoom.load(rawData.Gzdoom); err != nil {
 		return apperrors.New(apperrors.Err, "error in configuration file $file: $error", map[string]any{
 			"file":  filePath,
 			"error": err,
 		})
 	}
-	c.Tts = ttsCfg
-	c.Gzdoom = gzdoomCfg
 	return nil
 }
 
