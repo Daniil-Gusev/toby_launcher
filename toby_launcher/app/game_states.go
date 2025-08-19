@@ -67,8 +67,37 @@ func (s *GameState) RequiresInput() bool {
 	return false
 }
 
+type IwadSelectionMenuState struct{ core.BaseState }
+
+func (m *IwadSelectionMenuState) Name() string {
+	return "iwad selection menu"
+}
+
+func NewIwadSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
+	parrentState := &IwadSelectionMenuState{}
+	header := "Please select the iwad file for the game you wish to play."
+	options := make([]*core.MenuOption, 0, 10)
+	options = append(options, &core.MenuOption{
+		Id:          0,
+		Description: "Back.",
+		NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
+	})
+	optNum := 1
+	for _, iw := range ctx.GameManager.Iwads() {
+		iwad := iw
+		options = append(options, &core.MenuOption{
+			Id:          optNum,
+			Description: iwad,
+			NextState:   func() (core.State, error) { return &GameSelectionMenuState{iwad: iwad}, nil },
+		})
+		optNum += 1
+	}
+	return core.NewMenu(parrentState, options, header)
+}
+
 type GameSelectionMenuState struct {
 	core.BaseState
+	iwad string
 }
 
 func (m *GameSelectionMenuState) Name() string {
@@ -82,7 +111,7 @@ func (m *GameSelectionMenuState) Description() string {
 func (m *GameSelectionMenuState) Display(ctx *core.AppContext, ui *core.UiContext) {
 	ui.DisplayText("0. Back.\r\n\r\n")
 	ui.DisplayText("The following games are available to you:\r\n\r\n")
-	games := ctx.GameManager.AvailableGames()
+	games := ctx.GameManager.AvailableGamesForIwad(m.iwad)
 	for i, game := range games {
 		ui.DisplayText(fmt.Sprintf("%d. %s.\r\n%s\r\n\r\n", i+1, game.Name, game.Description))
 	}
@@ -97,7 +126,7 @@ func (m *GameSelectionMenuState) Handle(ctx *core.AppContext, ui *core.UiContext
 	if err != nil {
 		return m, err
 	}
-	games := ctx.GameManager.AvailableGames()
+	games := ctx.GameManager.AvailableGamesForIwad(m.iwad)
 	maxOption := len(games)
 	if option < 0 || option > maxOption {
 		ui.DisplayText("There is no such item in the menu.\r\n")

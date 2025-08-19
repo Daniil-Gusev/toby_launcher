@@ -2,6 +2,7 @@ package tts
 
 import (
 	"sort"
+	"toby_launcher/apperrors"
 	"toby_launcher/core/logger"
 )
 
@@ -32,7 +33,7 @@ func GetAvailableSynthesizers(logger logger.Logger) []SpeechSynthesizer {
 		if err == nil {
 			syns = append(syns, s)
 		} else {
-			logger.DebugPrintf("Failed to initialize factory speech synthesizer: %v\r\n", err)
+			logger.DebugError(apperrors.New(apperrors.Err, "Failed to initialize factory speech synthesizer: $error.", map[string]any{"error": err}))
 		}
 	}
 	for _, s := range syns {

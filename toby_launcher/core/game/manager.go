@@ -13,17 +13,16 @@ import (
 	"toby_launcher/utils/file_utils"
 )
 
-// GameManager manages game profiles and their execution.
 type GameManager struct {
 	logger        logger.Logger
 	config        *config.Config
 	tts           *tts.TtsManager
 	games         []*GameData
+	iwads         []string
 	currentGame   *Game
 	textProcessor *TextProcessor
 }
 
-// NewGameManager creates a new GameManager instance.
 func NewGameManager(cfg *config.Config, logger logger.Logger, tts *tts.TtsManager) (*GameManager, error) {
 	if logger == nil {
 		return nil, fmt.Errorf("logger not specified")
@@ -33,6 +32,7 @@ func NewGameManager(cfg *config.Config, logger logger.Logger, tts *tts.TtsManage
 		config:        cfg,
 		tts:           tts,
 		games:         make([]*GameData, 0, 10),
+		iwads:         make([]string, 0, 10),
 		textProcessor: NewTextProcessor(cfg, logger, tts),
 	}
 	if err := manager.loadGames(); err != nil {
@@ -41,7 +41,6 @@ func NewGameManager(cfg *config.Config, logger logger.Logger, tts *tts.TtsManage
 	return manager, nil
 }
 
-// loadGames loads game profiles from games.json.
 func (m *GameManager) loadGames() error {
 	gamesPath := m.config.Paths.GamesPath()
 	var gamesData RawGamesData
@@ -49,30 +48,68 @@ func (m *GameManager) loadGames() error {
 		return apperrors.New(apperrors.Err, "Failed to load games: $error", map[string]any{"error": err})
 	}
 	for n, g := range gamesData {
+		if err := g.validate(); err != nil {
+			warn := apperrors.New(apperrors.Err, "warning: in file $file, skiping game \"$game\" because $error", map[string]any{
+				"file":  gamesPath,
+				"game":  n,
+				"error": err,
+			})
+			m.logger.Error(warn)
+		}
 		game := &GameData{
 			Name:        n,
 			Description: g.Description,
 			Config:      g.Config,
-			Iwad:        g.Iwad,
+			Iwads:       g.Iwads,
 			Files:       g.Files,
 			Params:      g.Params,
 		}
 		m.games = append(m.games, game)
 	}
-	m.sortGames()
+	m.sortGames(m.games)
+	m.iwads = m.findIwads(m.games)
 	return nil
 }
 
-func (m *GameManager) sortGames() {
-	sort.Slice(m.games, func(i, j int) bool { return m.games[i].Name < m.games[j].Name })
+func (m *GameManager) sortGames(games []*GameData) {
+	sort.Slice(games, func(i, j int) bool { return m.games[i].Name < m.games[j].Name })
 }
 
-// AvailableGames returns the list of available games.
 func (m *GameManager) AvailableGames() []*GameData {
 	return m.games
 }
 
-// StartGame launches a game with the given name.
+func (m *GameManager) AvailableGamesForIwad(iwad string) []*GameData {
+	games := make([]*GameData, 0, 10)
+	for _, game := range m.games {
+		for _, iw := range game.Iwads {
+			if iw == iwad {
+				games = append(games, game)
+				break
+			}
+		}
+	}
+	return games
+}
+
+func (m *GameManager) findIwads(games []*GameData) []string {
+	iwads := make([]string, 0, 10)
+	foundIwads := make(map[string]bool, 10)
+	for _, game := range games {
+		for _, iwad := range game.Iwads {
+			if _, exists := foundIwads[iwad]; !exists {
+				foundIwads[iwad] = true
+				iwads = append(iwads, iwad)
+			}
+		}
+	}
+	return iwads
+}
+
+func (m *GameManager) Iwads() []string {
+	return m.iwads
+}
+
 func (m *GameManager) StartGame(gameData *GameData) error {
 	if m.currentGame != nil && m.currentGame.IsRunning {
 		return apperrors.New(apperrors.Err, "Another game is already running", nil)
@@ -104,7 +141,6 @@ func (m *GameManager) StartGame(gameData *GameData) error {
 	return nil
 }
 
-// StopGame stops the currently running game.
 func (m *GameManager) StopGame() error {
 	if m.currentGame == nil || !m.currentGame.IsRunning {
 		return nil
@@ -124,7 +160,6 @@ func (m *GameManager) GameIsRunning() bool {
 	return m.currentGame.IsRunning
 }
 
-// handleGameProcess manages the game process lifecycle and output processing.
 func (m *GameManager) handleGameProcess() {
 	if m.currentGame == nil {
 		return
@@ -167,10 +202,16 @@ func (m *GameManager) buildGameArgs(data *GameData) []string {
 			m.logger.Printf("Warning: configuration file %s for game %s is not found.\r\n", configPath, data.Name)
 		}
 	}
-	if data.Iwad != "" {
-		iwadPath := m.config.Paths.GameFilePath(data.Iwad)
+	for _, iwad := range data.Iwads {
+		iwadPath := m.config.Paths.GameFilePath(iwad)
+		iwadLower := strings.ToLower(iwad)
+		iwadLowerPath := m.config.Paths.GameFilePath(iwadLower)
 		if file_utils.Exists(iwadPath) {
-			args = append(args, "-iwad", data.Iwad)
+			args = append(args, "-iwad", iwad)
+			break
+		} else if file_utils.Exists(iwadLowerPath) {
+			args = append(args, "-iwad", iwadLower)
+			break
 		} else {
 			m.logger.Printf("Warning: iwad file %s for game %s is not found.\r\n", iwadPath, data.Name)
 		}

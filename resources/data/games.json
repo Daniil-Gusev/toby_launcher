@@ -2,7 +2,7 @@
   "Classic Doom1": {
     "description": "Classic Doom 1 with Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom.wad",
+    "iwads": ["doom.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/DOOM/TobyV8_Guns.pk3",
@@ -15,7 +15,7 @@
   "Classic Doom2": {
     "description": "Classic Doom 2 with Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/DOOM/TobyV8_Guns.pk3",
@@ -28,7 +28,7 @@
   "Classic Heretic": {
     "description": "Classic Heretic with Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "heretic.wad",
+    "iwads": ["heretic.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/HERETIC/TobyHereticWeaponsV8.pk3",
@@ -43,7 +43,7 @@
   "Classic Hexen": {
     "description": "Classic Hexen with Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "hexen.wad",
+    "iwads": ["hexen.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/HEXEN/TobyHexenWeapons.pk3",
@@ -57,7 +57,7 @@
   "Toby Doom": {
     "description": "Toby's custom Doom levels with Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom.wad", "doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/DOOM/TobyV8_Guns.pk3",
@@ -71,7 +71,7 @@
   "Toby Heretic": {
     "description": "Toby's custom Heretic levels with Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "heretic.wad",
+    "iwads": ["heretic.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/HERETIC/TobyHereticWeaponsV8.pk3",
@@ -87,7 +87,7 @@
   "Toby Hexen": {
     "description": "Toby's custom Hexen levels with Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "hexen.wad",
+    "iwads": ["hexen.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/HEXEN/TobyHexenWeapons.pk3",
@@ -102,7 +102,7 @@
   "Toby's Death Arena": {
     "description": "Toby's Death Arena with deathmatch settings and Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "params": [
       "-altdeath",
       "+fraglimit 20",
@@ -124,7 +124,7 @@
   "Project Brutality Classic Doom": {
     "description": "Classic Doom with Project Brutality and Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "PB-Toby-Compatibility-Addon.pk3",
@@ -138,7 +138,7 @@
   "Project Brutality Toby Doom": {
     "description": "Toby's custom Doom levels with Project Brutality and Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/MAPS/TobyDoomLevels.wad",
@@ -153,7 +153,7 @@
   "Project Brutality Demo Level": {
     "description": "Toby's Demo Level with Project Brutality and Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/MAPS/Toby-Demo-Level.wad",
@@ -168,7 +168,7 @@
   "Project Brutality Operation MDK": {
     "description": "Operation MDK with Project Brutality and Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "OpMDK.wad",
@@ -183,7 +183,7 @@
   "Project Brutality Toby's Death Arena": {
     "description": "Toby's Death Arena with Project Brutality, deathmatch settings, and Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "params": [
       "-altdeath",
       "+fraglimit 20",
@@ -204,7 +204,7 @@
   "Operation MDK": {
     "description": "Operation MDK with Toby's Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/DOOM/TobyV8_Guns.pk3",
@@ -218,7 +218,7 @@
   "Demo Level": {
     "description": "Toby's Demo Level with Accessibility Mod",
     "config": "TobyConfig.ini",
-    "iwad": "doom2.wad",
+    "iwads": ["doom2.wad"],
     "files": [
       "TobyAccMod_V8-0.pk3",
       "Addons/DOOM/TobyV8_Guns.pk3",

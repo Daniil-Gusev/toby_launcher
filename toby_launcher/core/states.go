@@ -141,10 +141,12 @@ func (m *MenuState) Handle(ctx *AppContext, ui *UiContext, input string) (State,
 type OptionSwitcher bool
 
 func (s OptionSwitcher) String() string {
-	if s == true {
+	switch s {
+	case true:
 		return "enable"
+	default:
+		return "disable"
 	}
-	return "disable"
 }
 
 type SwitchOptionState struct {

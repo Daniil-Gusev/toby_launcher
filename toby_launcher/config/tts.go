@@ -11,7 +11,7 @@ type ttsConfigData struct {
 }
 
 func (d *ttsConfigData) validate() error {
-	errStr := "Field \"$field\" is missing."
+	errStr := "field \"$field\" is missing"
 	if d.SpeechEngine == nil {
 		return apperrors.New(apperrors.Err, errStr, map[string]any{
 			"field": "tts.speech_engine",

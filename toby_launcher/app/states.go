@@ -32,7 +32,7 @@ func NewMainMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 		},
 		{Id: 1,
 			Description: "Play.",
-			NextState:   func() (core.State, error) { return &GameSelectionMenuState{}, nil },
+			NextState:   func() (core.State, error) { return NewIwadSelectionMenu(ctx, ui), nil },
 		},
 		{Id: 2,
 			Description: "Settings.",
