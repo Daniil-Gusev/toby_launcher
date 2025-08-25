@@ -53,7 +53,7 @@ func NewSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuState {
 	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Back.",
-			NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
+			NextState:   ctx.GetPreviousState,
 		},
 		{Id: 1,
 			Description: "Speech settings.",

@@ -80,7 +80,7 @@ func NewIwadSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuSt
 	options = append(options, &core.MenuOption{
 		Id:          0,
 		Description: "Back.",
-		NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
+		NextState:   ctx.GetPreviousState,
 	})
 	optNum := 1
 	for _, iw := range ctx.GameManager.Iwads() {

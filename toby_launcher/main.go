@@ -64,11 +64,7 @@ func main() {
 		logger.Error(err)
 		return
 	}
-	defer func() {
-		if err := gameManager.StopGame(); err != nil {
-			logger.Error(err)
-		}
-	}()
+	defer gameManager.Release()
 	appCtx := &core.AppContext{
 		Config:       cfg,
 		StateStack:   core.NewStateStack(),

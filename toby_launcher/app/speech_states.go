@@ -17,7 +17,7 @@ func NewSpeechSettingsMenu(ctx *core.AppContext, ui *core.UiContext) *core.MenuS
 	options := []*core.MenuOption{
 		{Id: 0,
 			Description: "Back",
-			NextState:   func() (core.State, error) { return ctx.GetPreviousState() },
+			NextState:   ctx.GetPreviousState,
 		},
 		{Id: 1,
 			Description: "Change speech synthesizer ($synthesizer).",
@@ -50,9 +50,7 @@ func NewSynthesizerSelectionMenu(ctx *core.AppContext, ui *core.UiContext) *core
 	options = append(options, &core.MenuOption{
 		Id:          0,
 		Description: "Back.",
-		NextState: func() (core.State, error) {
-			return ctx.GetPreviousState()
-		},
+		NextState:   ctx.GetPreviousState,
 	})
 	for i, s := range syns {
 		synth := s

@@ -1,1 +1,1 @@
-{"tts":{"speech_engine":"","rate":200},"gzdoom":{"params":["+vid_preferbackend 0"],"debug_output":true,"logging":true}}
+{"tts":{"speech_engine":"","rate":200},"gzdoom":{"params":{"music":true,"sound_fx":true,"vid_preferbackend":0},"additional_params":["+Toby_NarrationOutputType 2"],"debug_output":true,"logging":true}}

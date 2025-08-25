@@ -21,6 +21,7 @@ type GameManager struct {
 	iwads         []string
 	currentGame   *Game
 	textProcessor *TextProcessor
+	Params        *GameParams
 }
 
 func NewGameManager(cfg *config.Config, logger logger.Logger, tts *tts.TtsManager) (*GameManager, error) {
@@ -35,10 +36,22 @@ func NewGameManager(cfg *config.Config, logger logger.Logger, tts *tts.TtsManage
 		iwads:         make([]string, 0, 10),
 		textProcessor: NewTextProcessor(cfg, logger, tts),
 	}
+	gp, err := newGameParams(cfg.Gzdoom.GameParams)
+	if err != nil {
+		logger.Error(err)
+	}
+	manager.Params = gp
 	if err := manager.loadGames(); err != nil {
 		return nil, err
 	}
 	return manager, nil
+}
+
+func (m *GameManager) Release() {
+	if err := m.StopGame(); err != nil {
+		m.logger.Error(err)
+	}
+	m.Params.save()
 }
 
 func (m *GameManager) loadGames() error {
@@ -179,13 +192,17 @@ func (m *GameManager) handleGameProcess() {
 
 // buildGameArgs constructs the command-line arguments for gzdoom.
 func (m *GameManager) buildGameArgs(data *GameData) []string {
-	args := make([]string, 0, 5+len(data.Files)*2+len(data.Params)*2+len(m.config.Gzdoom.LaunchParams)*2)
+	args := make([]string, 0, 5+len(data.Files)*2+len(data.Params)*2+len(m.config.Gzdoom.AdditionalLaunchParams)*2)
 	args = append(args, "-stdout")
 	if m.config.Gzdoom.Logging {
 		args = append(args, "+logfile", m.config.Paths.GzdoomLogFilePath())
 	}
-	if len(m.config.Gzdoom.LaunchParams) > 0 {
-		for _, param := range m.config.Gzdoom.LaunchParams {
+	gameParams := m.Params.toCmdArgs()
+	if len(gameParams) > 0 {
+		args = append(args, gameParams...)
+	}
+	if len(m.config.Gzdoom.AdditionalLaunchParams) > 0 {
+		for _, param := range m.config.Gzdoom.AdditionalLaunchParams {
 			args = append(args, strings.Split(param, " ")...)
 		}
 	}

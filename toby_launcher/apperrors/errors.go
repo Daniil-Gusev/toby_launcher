@@ -40,29 +40,39 @@ func New(code ErrorCode, message string, details map[string]any) *AppError {
 }
 
 type AppErrors struct {
-	Errors []error
+	errors []error
 }
 
 func NewErrors(errs []error) *AppErrors {
 	appErrors := &AppErrors{
-		Errors: make([]error, 0, 10),
+		errors: make([]error, 0, 10),
 	}
 	for _, err := range errs {
-		appErrors.Add(err)
+		if err != nil {
+			appErrors.Add(err)
+		}
 	}
 	return appErrors
 }
 
 func (e *AppErrors) Add(err error) {
-	e.Errors = append(e.Errors, err)
+	e.errors = append(e.errors, err)
 }
 
 func (e *AppErrors) Error() string {
 	var text string
-	for _, err := range e.Errors {
+	for _, err := range e.errors {
 		text += (err.Error() + "\r\n")
 	}
 	return text
+}
+
+func (e *AppErrors) Count() int {
+	return len(e.errors)
+}
+
+func (e *AppErrors) Errors() []error {
+	return e.errors
 }
 
 type ErrorHandler interface {
@@ -76,13 +86,13 @@ func (h *StdErrorHandler) Handle(err error) string {
 		return ""
 	}
 	if appErrs, ok := err.(*AppErrors); ok {
-		if len(appErrs.Errors) == 0 {
+		if appErrs.Count() == 0 {
 			return ""
 		}
 		var text string
-		for i, e := range appErrs.Errors {
+		for i, e := range appErrs.Errors() {
 			text += (h.Handle(e))
-			if i != (len(appErrs.Errors) - 1) {
+			if i != (appErrs.Count() - 1) {
 				text += "\r\n"
 			}
 		}

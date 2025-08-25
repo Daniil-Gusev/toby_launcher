@@ -77,10 +77,10 @@ type MenuOption struct {
 
 type MenuState struct {
 	BaseState
-	ParentState State
-	Options     []*MenuOption
-	OptionsMap  map[int]*MenuOption
-	Header      string
+	parentState State
+	options     []*MenuOption
+	optionsMap  map[int]*MenuOption
+	header      string
 }
 
 func NewMenu(parentState State, options []*MenuOption, header string) *MenuState {
@@ -98,14 +98,17 @@ func NewMenu(parentState State, options []*MenuOption, header string) *MenuState
 		optionsMap[option.Id] = option
 	}
 	return &MenuState{
-		ParentState: parentState,
-		Options:     sortedOptions,
-		OptionsMap:  optionsMap,
-		Header:      header,
+		parentState: parentState,
+		options:     sortedOptions,
+		optionsMap:  optionsMap,
+		header:      header,
 	}
 }
 
 func (m *MenuState) Name() string {
+	if m.parentState != nil {
+		return m.parentState.Name()
+	}
 	return "menu"
 }
 
@@ -114,8 +117,8 @@ func (m *MenuState) Description() string {
 }
 
 func (m *MenuState) Display(ctx *AppContext, ui *UiContext) {
-	ui.DisplayText(m.Header + "\r\n")
-	for _, option := range m.Options {
+	ui.DisplayText(m.header + "\r\n")
+	for _, option := range m.options {
 		desc := option.Description
 		if option.Params != nil {
 			desc = utils.SubstituteParams(desc, option.Params())
@@ -130,7 +133,7 @@ func (m *MenuState) Handle(ctx *AppContext, ui *UiContext, input string) (State,
 	if err != nil {
 		return m, err
 	}
-	option, exists := m.OptionsMap[num]
+	option, exists := m.optionsMap[num]
 	if !exists {
 		ui.DisplayText("There is no such item in the menu.\r\n")
 		return m, nil
@@ -151,8 +154,9 @@ func (s OptionSwitcher) String() string {
 
 type SwitchOptionState struct {
 	BaseState
-	option *bool
-	name   string
+	option       *bool
+	name         string
+	changeOption func()
 }
 
 func (s *SwitchOptionState) Init(ctx *AppContext, ui *UiContext) (State, error) {
@@ -175,7 +179,7 @@ func (s *SwitchOptionState) RequiresInput() bool {
 	return false
 }
 
-func NewSwitchMenuOption(id int, option *bool, name string) *MenuOption {
+func NewSwitchMenuOption(id int, name string, option *bool) *MenuOption {
 	if option == nil {
 		return nil
 	}

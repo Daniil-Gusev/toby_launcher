@@ -21,16 +21,25 @@ func (app *AppContext) GetCurrentState() (State, error) {
 }
 
 func (app *AppContext) GetPreviousState() (State, error) {
+	return app.GetStateFromDeep(1)
+}
+
+func (app *AppContext) GetStateFromDeep(depth int) (State, error) {
 	if app.StateStack.IsEmpty() {
 		return nil, apperrors.New(apperrors.ErrStateStack, "state stack is empty", nil)
 	}
-	if len(app.StateStack.states) < 2 {
+	if len(app.StateStack.states) < 1+depth {
 		return nil, apperrors.New(apperrors.ErrStateStack, "state stack is insufficient.", nil)
 	}
 	app.StateStack.Pop()
+	currentDepth := 0
 	for {
 		state := app.StateStack.Pop()
 		if state.RequiresInput() {
+			currentDepth += 1
+			if currentDepth < depth {
+				continue
+			}
 			return state, nil
 		}
 	}

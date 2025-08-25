@@ -114,8 +114,11 @@ func (s *Synthesizer) Speak(phrase *tts.Phrase) error {
 	if err := s.cmd.Start(); err != nil {
 		return err
 	}
-	s.isSpeaking = true
 	go func() {
+		if s.cmd == nil {
+			return
+		}
+		s.isSpeaking = true
 		if err := s.cmd.Wait(); err != nil {
 			if s.isSpeaking {
 				s.LogError(err)
