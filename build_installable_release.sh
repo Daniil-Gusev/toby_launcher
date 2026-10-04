@@ -19,8 +19,9 @@ if ! command -v go &> /dev/null; then
   exit 1
 fi
 
-if ! command -v 7z &> /dev/null; then
-  echo "7z not found, terminate!"
+sevenzip="${SEVENZIP:-7zz}"
+if ! command -v ${sevenzip} &> /dev/null; then
+  echo "${sevenzip} not found, terminate!"
   exit 1
 fi
 
@@ -32,7 +33,7 @@ fi
 mkdir -p tmp
 echo "Creating archive tmp/data.7z from resources/data..."
 cd resources/data
-7z a -mmt=on -mx=6 ../../tmp/data.7z * > /dev/null
+${sevenzip} a -mmt=on -mx=6 ../../tmp/data.7z * > /dev/null
 cd ../../
 
 ./download_gzdoom.sh
@@ -84,10 +85,10 @@ for PLATFORM in "${PLATFORMS[@]}"; do
   mkdir -p tmp/gzdoom
   cp -r $GZDOOM_PATH/* tmp/gzdoom
   cd tmp
-  7z a -mmt=on -mx=5 gzdoom.7z gzdoom/* > /dev/null
+  ${sevenzip} a -mmt=on -mx=5 gzdoom.7z gzdoom/* > /dev/null
   rm -f ../installer/data.7z
   echo "Creating full archive installer/data.7z..."
-  7z a -mmt=on -mx=0 ../installer/data.7z data.7z gzdoom.7z > /dev/null
+  ${sevenzip} a -mmt=on -mx=0 ../installer/data.7z data.7z gzdoom.7z > /dev/null
   cd ../
 
   LIB_PATH="./resources/lib/${GOOS}_${GOARCH}"
